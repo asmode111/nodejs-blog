@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-const Scheema = mongoose.Schema;
+const Schema = mongoose.Schema;
 const PostSchema = new Schema({
   title: {
     type: String,
-    rquired: true
+    required: true
   },
   body: {
     type: String,
-    rquired: true
+    required: true
   },
   createdAt: {
     type: Date,
