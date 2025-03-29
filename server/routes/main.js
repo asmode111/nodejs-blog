@@ -32,6 +32,22 @@ router.get('', async (req, res) => {
   }
 });
 
+router.get('/post/:id', async(req, res) => {
+  try {
+    const locals = {
+      title: "Nodejs Blog",
+      description: "Simple blog created with Nodejs"
+    };
+
+    let slug = req.params.id;
+
+    let data = await Post.findById({ _id: slug });
+    res.render('post', {locals, data})
+  } catch(error) {
+    console.log(error);
+  }
+});
+
 
 /* function insertPostData () {
   Post.insertMany([
