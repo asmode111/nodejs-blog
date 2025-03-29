@@ -73,7 +73,8 @@ router.get('/dashboard', authMiddleware, async (req, res) => {
   
     res.render('admin/dashboard', {
       locals,
-      data
+      data,
+      layout: adminLayout
     });
   } catch (error) {
     console.log(error);
@@ -98,6 +99,37 @@ router.post('/register', async (req, res) => {
     }
 
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/add-post', authMiddleware, async (req, res) => {
+  try {
+    const locals = {
+      title: "Add post",
+      description: "Simple blog created with Nodejs"
+    };
+
+    res.render('admin/add-post', {
+      locals,
+      layout: adminLayout
+    })
+  } catch(error) {
+    console.log(error);
+  }
+});
+
+router.post('/add-post', authMiddleware, async(req, res) => {
+  try {
+    const newPost = new Post({
+      title: req.body.title,
+      body: req.body.body
+    });
+
+    await Post.create(newPost);
+
+    res.redirect('/dashboard');
+  } catch(error) {
+    console.log(error);
   }
 });
 
