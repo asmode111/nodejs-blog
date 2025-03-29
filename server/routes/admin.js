@@ -118,7 +118,7 @@ router.get('/add-post', authMiddleware, async (req, res) => {
   }
 });
 
-router.post('/add-post', authMiddleware, async(req, res) => {
+router.post('/add-post', authMiddleware, async (req, res) => {
   try {
     const newPost = new Post({
       title: req.body.title,
@@ -131,6 +131,65 @@ router.post('/add-post', authMiddleware, async(req, res) => {
   } catch(error) {
     console.log(error);
   }
+});
+
+router.get('/edit-post/:id', authMiddleware, async (req, res) => {
+  try {
+    const locals = {
+      title: "Edit post",
+      description: "Simple blog created with Nodejs"
+    };
+
+    const data = await Post.findOne({
+      _id: req.params.id
+    });
+
+    if (!data) {
+      res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.render('admin/edit-post', {
+      data,
+      locals,
+      layout: adminLayout
+    });
+
+  } catch(error) {
+    console.log(error);
+  }
+});
+
+router.put('/edit-post/:id', authMiddleware, async (req, res) => {
+  try {
+
+    await Post.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      body: req.body.body,
+      updatedAt: Date.now()
+    });
+
+    res.redirect(`/edit-post/${req.params.id}`);
+
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
+router.delete('/delete-post/:id', authMiddleware, async (req, res) => {
+
+  try {
+    await Post.deleteOne({ _id: req.params.id });
+
+    res.redirect('/dashboard');
+  } catch(error) {
+    console.log(error);
+  }
+});
+
+router.get('/logout', authMiddleware, (req, res) => {
+  res.clearCookie('token');
+  res.redirect('/');
 });
 
 module.exports = router;

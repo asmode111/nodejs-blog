@@ -26,6 +26,7 @@ router.get('', async (req, res) => {
       locals, 
       data,
       nextPage: hasNextPage ? nextPage : null,
+      currentRoute: '/'
     });
   } catch (error) {
     console.log(error);
@@ -42,7 +43,11 @@ router.get('/post/:id', async(req, res) => {
       description: "Simple blog created with Nodejs"
     };
 
-    res.render('post', {locals, data})
+    res.render('post', {
+      locals, 
+      data,
+      currentRoute: `/post/${slug}`
+    })
   } catch(error) {
     console.log(error);
   }
@@ -64,7 +69,11 @@ router.post('/search', async(req, res) => {
       ]
     })
 
-    res.render('search', { locals, data })
+    res.render('search', { 
+      locals, 
+      data,
+      currentRoute: '/'
+    })
 
   } catch(error) {
     console.log(error);
@@ -122,7 +131,9 @@ router.post('/search', async(req, res) => {
 
 
 router.get('/about', (req, res) => {
-  res.render('about');
+  res.render('about', {
+    currentRoute: '/about'
+  });
 });
 
 module.exports = router;
