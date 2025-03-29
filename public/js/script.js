@@ -4,16 +4,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('searchInput');
   const searchClose = document.getElementById('searchClose');
 
-  searchButton.addEventListener('click', function(){
-    searchBar.style.visibility = 'visible';
-    searchBar.classList.add('open');
-    this.setAttribute('aria-expended', 'true');
-    searchInput.focus();
-  });
-
-  searchClose.addEventListener('click', function() {
-    searchBar.style.visibility = 'hidden';
-    searchBar.classList.rmeove('open');
-    this.setAttribute('aria-expended', 'false');
-  })
+  if (searchButton) {
+    searchButton.addEventListener('click', function(){
+      searchBar.style.visibility = 'visible';
+      searchBar.classList.add('open');
+      this.setAttribute('aria-expended', 'true');
+      searchInput.focus();
+    });
+  
+    searchClose.addEventListener('click', function() {
+      searchBar.style.visibility = 'hidden';
+      searchBar.classList.remove('open');
+      this.setAttribute('aria-expended', 'false');
+    })
+  }
 });
